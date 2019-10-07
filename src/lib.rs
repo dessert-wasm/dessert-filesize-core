@@ -109,10 +109,13 @@ fn get_options(descriptor: &JsValue) -> Options {
         _ => false,
     };
 
-    let base: u32 = match get!(&descriptor, "base") {
+    let mut base: u32 = match get!(&descriptor, "base") {
         Ok(v) => v.as_f64().unwrap_or(2.0) as u32,
         _ => 2,
     };
+    if base == 0 {
+        base = 2;
+    }
 
     let round: u32 = match get!(&descriptor, "round") {
         // Not a number is not handled JS-side
