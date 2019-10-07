@@ -1,8 +1,10 @@
 [package]
 name = "dessert-filesize-core"
-version = "0.1.0"
+version = "0.3.0"
 authors = ["Nyquase <adrien.rouhete@epitech.eu>"]
 edition = "2018"
+description = "WASM core for Filesize module"
+repository = "https://github.com/dessert-wasm/dessert-filesize-core"
 
 [lib]
 crate-type = ["cdylib", "rlib"]

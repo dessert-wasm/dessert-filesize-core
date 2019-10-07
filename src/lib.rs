@@ -237,12 +237,20 @@ fn get_options(descriptor: &JsValue) -> Options {
 pub fn filesize(arg: &JsValue, descriptor: &JsValue) -> JsValue {
     set_panic_hook();
 
+    let mut num: f64 = if arg.is_string() {
+        arg.as_string()
+            .unwrap()
+            .parse::<f64>()
+            .expect("Invalid Number")
+    } else {
+        arg.as_f64().unwrap_or(std::f64::NAN)
+    };
+    let neg = num.is_sign_negative();
+
     let o = get_options(&descriptor);
 
     //log(&format!("{:?}", o));
 
-    let mut num: f64 = arg.as_f64().unwrap_or(std::f64::NAN);
-    let neg = num.is_sign_negative();
     let ceil: f64 = if o.base > 2 { 1000.0 } else { 1024.0 };
 
     let mut res;
