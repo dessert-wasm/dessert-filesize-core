@@ -205,9 +205,7 @@ fn get_options(descriptor: &JsValue) -> Options {
             // Number of symbols
             let exponent = v.as_f64();
             if let Some(v) = exponent {
-                if v > 8.0 {
-                    Some(8.0)
-                } else if v.is_nan() {
+                if v < 0.0 || v.is_nan() {
                     None
                 } else {
                     Some(v)
@@ -252,8 +250,6 @@ pub fn filesize(arg: &JsValue, descriptor: &JsValue) -> JsValue {
 
     let o = get_options(&descriptor);
 
-    //log(&format!("{:?}", o));
-
     let ceil: f64 = if o.base > 2 { 1000.0 } else { 1024.0 };
 
     let mut res;
@@ -270,6 +266,14 @@ pub fn filesize(arg: &JsValue, descriptor: &JsValue) -> JsValue {
         }
         e
     };
+
+    if e > 8.0 {
+        e = 8.0;
+    }
+
+    if o.output == "exponent" {
+        return JsValue::from_f64(e);
+    }
 
     if num == 0.0 {
         res = 0.0;
@@ -345,6 +349,7 @@ pub fn filesize(arg: &JsValue, descriptor: &JsValue) -> JsValue {
 
     // Locale
     // Separator
+    let res_ = res;
     let res: String = if let Locale::Defined(true) = o.locale {
         js_sys::Number::from(res).to_locale_string("en-US").into()
     } else if let Locale::Value(s) = o.locale {
@@ -357,7 +362,7 @@ pub fn filesize(arg: &JsValue, descriptor: &JsValue) -> JsValue {
 
     if o.output == "array" {
         let r = js_sys::Array::new();
-        r.push(&JsValue::from(res));
+        r.push(&JsValue::from(res_));
         r.push(&JsValue::from(res_suffix));
         return JsValue::from(r);
     }
@@ -378,7 +383,7 @@ pub fn filesize(arg: &JsValue, descriptor: &JsValue) -> JsValue {
 
     if o.output == "object" {
         let obj = json!({
-            "value": res,
+            "value": res_,
             "symbol": res_suffix,
         });
         return JsValue::from_serde(&obj).unwrap();
