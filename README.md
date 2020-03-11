@@ -54,3 +54,9 @@ wasm-pack build
 ```sh
 wasm-pack test --headless --firefox # or --chrome
 ```
+
+## License
+MIT
+
+## Contributing
+See [CONTRIBUTING.md](CONTRIBUTING.md)
