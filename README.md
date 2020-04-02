@@ -1,43 +1,94 @@
+[![](https://user-images.githubusercontent.com/25987204/78205790-10b0c680-74d8-11ea-9767-5bb93e920044.png)](https://dessert.dev/)
+
 Dessert Filesize
 ============
 
-[![NPM version](https://img.shields.io/npm/v/dessert-filesize-core.svg)](https://www.npmjs.org/package/dessert-filesize-core)
+[![npm-badge]][npm-url]
+[![license-badge]][license]
+
+[npm-badge]: https://img.shields.io/npm/v/dessert-filesize-core.svg
+[npm-url]: https://www.npmjs.org/package/dessert-filesize-core
+[license-badge]: https://img.shields.io/github/license/dessert-wasm/dessert-filesize-core
+[license]: LICENSE_MIT
 
 
-This library is the base API for the [filesize] module, written in Rust for WebAssembly.
+> Exposes the base API for the [filesize] module, written in Rust for WebAssembly.
 
 [filesize]: https://github.com/dessert-wasm/dessert-filesize
 
 
 ## Summary
-* [Installation](#installation)
+* [Usage](#usage)
 * [API](#api)
+* [Installation](#installation)
 * [Building](#building)
 * [Testing](#testing)
+* [License](#license)
+* [Contributing](#contributing)
+
+
+## Usage
+
+> This module is **not** supposed to be used directly as a dependence by an application, it is used as a backend for js connector
+
+```js
+const filesize = require('dessert-filesize-core');
+
+filesize(500, {/*options*/});
+```
+
+## API
+
+### filesize(bytes, options={})
+
+Returns a human readable string from `bytes` (number)
+
+`filesize()` accepts an optional descriptor Object as a second argument, so you can customize the output.
+
+### base
+_*(number)*_ Number base, default is `2`
+
+### bits
+_*(boolean)*_ Enables `bit` sizes, default is `false`
+
+### exponent
+_*(number)*_ Specifies the symbol via exponent, e.g. `2` is `MB` for base 2, default is `-1`
+
+### fullform
+_*(boolean)*_ Enables full form of unit of measure, default is `false`
+
+### fullforms
+_*(array)*_ Array of full form overrides, default is `[]`
+
+### locale (overrides 'separator')
+
+### output
+_*(string)*_ Output of function (`array`, `exponent`, `object`, or `string`), default is `string`
+
+### round
+_*(number)*_ Decimal place, default is `2`
+
+### separator
+_*(string)*_ Decimal separator character, default is `.`
+
+### spacer
+_*(string)*_ Character between the `result` and `symbol`, default is `" "`
+
+### standard
+_*(string)*_ Standard unit of measure, can be `iec` or `jedec`, default is `jedec`; can be overruled by `base`
+
+### symbols
+_*(object)*_ Dictionary of SI/JEDEC/IEC symbols to replace for localization, defaults to english if no match is found
+
+### unix
+_*(boolean)*_ Enables unix style human readable output, e.g `ls -lh`, default is `false`
 
 
 ## Installation
 
-> Note:  
-Although this module is not supposed to be used by itself, it can still be used as a standalone module.  
-dessert-filesize-core is depended on by [dessert-filesize](https://github.com/dessert-wasm/dessert-filesize)
+> dessert-filesize-core is depended on by [dessert-filesize](https://github.com/dessert-wasm/dessert-filesize)
 ```sh
 npm install dessert-filesize-core
-```
-
-## API
-Here is a quick lookup of how you can use filesize  
-To know more about the api and what options are available, refer to the [filesize.js] module
-
-[filesize.js]: https://github.com/avoidwork/filesize.js
-
-```javascript
-let filesize = require('dessert-filesize-core').filesize;
-
-let val = 500;
-let options = { exponent: -2, output: "array" };
-
-console.log(filesize(val, options));
 ```
 
 ## Building
