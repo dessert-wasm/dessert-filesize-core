@@ -17,7 +17,7 @@ Dessert Filesize
 [filesize]: https://github.com/dessert-wasm/dessert-filesize
 
 
-## Summary
+## Table of contents
 * [Usage](#usage)
 * [API](#api)
 * [Installation](#installation)
